@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasan Genç — GitHub Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #030712;
+            color: #f3f4f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Saf CSS Arka Plan Efekti ve Izgara */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(30, 58, 138, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 58, 138, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(30, 58, 138, 0.25) 0%, rgba(10, 15, 29, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Ana Konteyner */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Saydam Cam (Glassmorphism) Paneller */
+        .glass-panel {
+            background: rgba(10, 15, 29, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(59, 130, 246, 0.35);
+        }
+
+        /* Üst Menü / Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #1e3a8a, #0a0f1d);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #60a5fa;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text h1 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            color: #60a5fa;
+            font-family: monospace;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        nav a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        nav a:hover {
+            color: #ffffff;
+            background: rgba(30, 58, 138, 0.3);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Hero Bölümü */
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(30, 58, 138, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: monospace;
+            color: #93c5fd;
+            margin-bottom: 16px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #3b82f6;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .hero h2 {
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            line-height: 1.2;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .hero h2 span {
+            color: #60a5fa;
+            text-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: #9ca3af;
+            line-height: 1.6;
+            font-weight: 300;
+            max-width: 650px;
+            margin-bottom: 24px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            color: #ffffff;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(17, 24, 39, 0.4);
+            color: #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(30, 58, 138, 0.2);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Grid Düzeni (Eğitim ve Uzmanlık) */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-subtitle {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 20px;
+        }
+
+        .info-card {
+            background: rgba(17, 24, 39, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .info-card h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .info-card .sub {
+            font-size: 12px;
+            color: #60a5fa;
+            font-family: monospace;
+            margin-top: 4px;
+        }
+
+        .info-card .desc {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        /* Yetenekler Bölümü */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .skill-box {
+            background: rgba(17, 24, 39, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-box:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-3px);
+            background: rgba(17, 24, 39, 0.5);
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .skill-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .skill-level {
+            font-size: 10px;
+            font-family: monospace;
+            padding: 3px 8px;
+            background: rgba(30, 58, 138, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+            color: #93c5fd;
+        }
+
+        .skill-desc {
+            font-size: 12px;
+            color: #9ca3af;
+            line-height: 1.4;
+        }
+
+        /* İletişim Bölümü */
+        .contact-box {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .email-badge {
+            font-family: monospace;
+            font-size: 13px;
+            color: #93c5fd;
+            background: rgba(30, 58, 138, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .email-badge:hover {
+            background: rgba(30, 58, 138, 0.5);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        footer {
+            text-align: center;
+            font-size: 11px;
+            font-family: monospace;
+            color: #6b7280;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Arkaplan Elemanları -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <div class="container">
+
+        <!-- Üst Menü -->
+        <header class="glass-panel">
+            <div class="logo-area">
+                <div class="logo-icon">H</div>
+                <div class="logo-text">
+                    <h1>Hasan Genç</h1>
+                    <p>Software Developer</p>
+                </div>
+            </div>
+            <nav>
+                <a href="#about">Hakkımda</a>
+                <a href="#skills">Yetenekler</a>
+                <a href="#contact">İletişim</a>
+            </nav>
+        </header>
+
+        <!-- Hero Bölümü -->
+        <section class="glass-panel hero">
+            <div class="badge">
+                <span class="pulse-dot"></span>
+                Kıraç MTAL • Yazılım Geliştirme Dalı (16 Yaş)
+            </div>
+            <h2>Ben Hasan <br><span>Yazılım Öğrencisiyim</span></h2>
+            <p>
+                Bilişim teknolojileri öğrencisiyim. Masaüstü mimarileri, veritabanı yönetim sistemleri ve modern yazılım çözümleri geliştiriyor; yapay zeka araçlarını etkin bir şekilde iş akışlarıma entegre ediyorum.
+            </p>
+            <div class="btn-group">
+                <a href="#contact" class="btn btn-primary">İletişime Geç</a>
+                <a href="https://github.com" target="_blank" class="btn btn-secondary">GitHub Profilim</a>
+            </div>
+        </section>
+
+        <!-- Eğitim ve Uzmanlık Alanları -->
+        <div class="grid-2">
+            <!-- Eğitim -->
+            <div class="glass-panel" id="about">
+                <h3 class="section-title">Eğitim Hayatı</h3>
+                <p class="section-subtitle">Akademik altyapı ve okul bilgileri</p>
+                
+                <div class="info-card">
+                    <h4>Kıraç Mesleki ve Teknik Anadolu Lisesi</h4>
+                    <div class="sub">Bilişim Teknolojileri Alanı</div>
+                    <div class="desc">Yazılım Geliştirme Dalı öğrencisi olarak nesne yönelimli programlama ve algoritmik temeller üzerine eğitim alıyorum.</div>
+                </div>
+            </div>
+
+            <!-- Uzmanlık -->
+            <div class="glass-panel">
+                <h3 class="section-title">Odak Alanları</h3>
+                <p class="section-subtitle">Geliştirme ve teknoloji yığını</p>
+                
+                <div class="info-card">
+                    <h4>Yazılım Dilleri</h4>
+                    <div class="sub">C# / Python / HTML</div>
+                    <div class="desc">Masaüstü yazılımları, otomasyon scriptleri ve yapısal arayüz tasarımı.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yetenekler Bölümü -->
+        <section class="glass-panel" id="skills">
+            <h3 class="section-title">Teknik Yetkinlikler</h3>
+            <p class="section-subtitle">Kullandığım diller ve yetkinlik düzeylerim</p>
+
+            <div class="skills-grid">
+                <!-- Skill 1 -->
+                <div class="skill-box">
+                    <div class="skill-header">
+                        <span class="skill-name">C# Programming</span>
+                        <span class="skill-level">Intermediate</span>
+                    </div>
+                    <p class="skill-desc">Nesne yönelimli programlama, masaüstü uygulamaları ve veritabanı entegrasyonu.</p>
+                </div>
+
+                <!-- Skill 2 -->
+                <div class="skill-box">
+                    <div class="skill-header">
+                        <span class="skill-name">Python</span>
+                        <span class="skill-level">Intermediate</span>
+                    </div>
+                    <p class="skill-desc">Otomasyon süreçleri, veri işleme ve algoritma geliştirme.</p>
+                </div>
+
+                <!-- Skill 3 -->
+                <div class="skill-box">
+                    <div class="skill-header">
+                        <span class="skill-name">MySQL & Workbench</span>
+                        <span class="skill-level">Intermediate</span>
+                    </div>
+                    <p class="skill-desc">İlişkisel veritabanı tasarımı, tablo yönetimi ve sorgu optimizasyonu.</p>
+                </div>
+
+                <!-- Skill 4 -->
+                <div class="skill-box">
+                    <div class="skill-header">
+                        <span class="skill-name">HTML & Web</span>
+                        <span class="skill-level">Intermediate</span>
+                    </div>
+                    <p class="skill-desc">Saydam cam efektleri ve modern düzen yapıları kurma.</p>
+                </div>
+
+                <!-- Skill 5 -->
+                <div class="skill-box" style="grid-column: 1 / -1;">
+                    <div class="skill-header">
+                        <span class="skill-name">Yapay Zeka & Prompt Yazarlığı</span>
+                        <span class="skill-level">Intermediate</span>
+                    </div>
+                    <p class="skill-desc">Yapay zeka modellerini yönlendirme, hassas prompt tasarımı ve geliştirme süreçlerinde verimlilik artırma.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- İletişim Bölümü -->
+        <section class="glass-panel contact-box" id="contact">
+            <h3 class="section-title">İletişime Geçin</h3>
+            <p class="section-subtitle" style="margin-bottom: 0;">Projelerimi incelemek veya iletişime geçmek için e-posta gönderebilirsiniz.</p>
+            <a href="mailto:hasangenc17g@gmail.com" class="email-badge">hasangenc17g@gmail.com</a>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            &copy; 2026 Hasan Genç. Tüm hakları saklıdır.
+        </footer>
+
+    </div>
+
+</body>
+</html>
